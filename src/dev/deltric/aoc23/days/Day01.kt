@@ -1,5 +1,19 @@
 package dev.deltric.aoc23.days
 
-fun main() {
+import dev.deltric.aoc23.utils.readDay
 
+fun main() {
+    val result = readDay(1).sumOf(::parseCalibration)
+    println("Calibration Sum: $result")
+}
+
+/**
+ * Parses the calibration entry by filtering out all non-digits.
+ * Then combines the first and last digit to form the calibration entry.
+ * @param line The calibration entry line
+ * @return Combined calibration entry
+ */
+fun parseCalibration(line: String): Int {
+    return line.filter(Char::isDigit)
+        .let { "${it[0]}${it[it.length - 1]}".toInt() }
 }
