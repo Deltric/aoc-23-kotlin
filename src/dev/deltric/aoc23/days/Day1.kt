@@ -13,7 +13,7 @@ object Day1 : Day {
      * @param line The calibration entry line
      * @return Combined calibration entry
      */
-    fun parseCalibration(line: String): Int {
+    private fun parseCalibration(line: String): Int {
         return line.filter(Char::isDigit)
             .let { "${it[0]}${it[it.length - 1]}".toInt() }
     }

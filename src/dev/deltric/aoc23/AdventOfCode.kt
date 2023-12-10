@@ -1,12 +1,13 @@
 package dev.deltric.aoc23
 
 import dev.deltric.aoc23.days.Day1
+import dev.deltric.aoc23.days.Day1Part2
 import java.lang.Exception
 import kotlin.io.path.Path
 import kotlin.io.path.readLines
 
 private val days = mapOf(
-    1 to mapOf(1 to Pair(Day1, "day_1"))
+    1 to mapOf(1 to Pair(Day1, "day_1"), 2 to Pair(Day1Part2, "day_1"))
 )
 
 fun main(args: Array<String>) {
