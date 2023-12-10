@@ -1,17 +1,10 @@
 package dev.deltric.aoc23.days
 
-object Day2 : Day {
+object Day2Part2 : Day {
 
     override fun start(lines: List<String>) {
-        val expected = mapOf(
-            Cube.RED to 12,
-            Cube.GREEN to 13,
-            Cube.BLUE to 14
-        )
-
         val sum = lines.map(::parseGame)
-            .filter { it.isPossible(expected) }
-            .sumOf { it.id }
+            .sumOf { it.getPower() }
         println("Game Sum: $sum")
     }
 
@@ -60,21 +53,23 @@ object Day2 : Day {
         val rounds: MutableList<Round> = mutableListOf()
     ) {
         /**
-         * Checks each round for if it exceeds the expectation
-         * @param expectation Expected max values of [Cube]s
-         * @return true if this game was possible, false otherwise.
+         * Looks through all rounds in the game to find the minimum amount of cubes
+         * Multiplies the minimum amounts all against each other to gauge power
+         * @return The game's power
          */
-        fun isPossible(expectation: Map<Cube, Int>): Boolean {
-            for (cube in expectation.keys) {
-                val expected = expectation[cube] ?: 0
+        fun getPower(): Int {
+            val minimum = mutableMapOf<Cube, Int>()
 
-                for (round in this.rounds) {
-                    if (round.cubes.getOrDefault(cube, 0) > expected) {
-                        return false
+            this.rounds.forEach { round ->
+                Cube.entries.forEach { cube ->
+                    val value = round.getCubes(cube)
+                    if (value > minimum.getOrDefault(cube, 0)) {
+                        minimum[cube] = value
                     }
                 }
             }
-            return true
+
+            return minimum.values.reduce { a, b -> a * b }
         }
     }
 
@@ -88,6 +83,15 @@ object Day2 : Day {
          */
         fun addCubes(cube: Cube, amount: Int) {
             this.cubes[cube] = amount
+        }
+
+        /**
+         * Gets the amount of a [Cube]
+         * @param cube The type of cube
+         * @return The cube amount
+         */
+        fun getCubes(cube: Cube): Int {
+            return this.cubes.getOrDefault(cube, 0)
         }
     }
 }
